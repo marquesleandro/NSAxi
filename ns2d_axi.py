@@ -165,6 +165,7 @@ if polynomial_option == 0 or polynomial_option == 1 or polynomial_option == 2:
   mesh = importMSH.Linear2D(pathMSHFile, mshFileName)
 
   numNodes               = mesh.numNodes
+  numVerts               = mesh.numNodes
   numElements            = mesh.numElements
   x                      = mesh.x
   y                      = mesh.y
@@ -234,6 +235,7 @@ elif polynomial_option == 3:
  mesh = importMSH.Quad2D(pathMSHFile, mshFileName)
 
  numNodes               = mesh.numNodes
+ numVerts               = mesh.numVerts
  numElements            = mesh.numElements
  x                      = mesh.x
  y                      = mesh.y
@@ -442,7 +444,8 @@ if import_option == 0:
 elif import_option == 1:
  import_option = 'ON'
  
- numNodes, numElements, IEN, x, y, vx, vy, w, psi, c, polynomial_order, benchmark_problem = importVTK.vtkFile("/home/marquesleandro/quadStent/results/" + folderName + "/" + folderName + str(numberStep) + ".vtk", polynomial_option)
+ vx, vy, c, p, p, benchmark_problem = importVTK.vtkFile("/home/marquesleandro/NSAxi/results/" + folderName + "/" + folderName + str(numberStep) + ".vtk", numNodes, numVerts, numElements, IEN, polynomial_option)
+ sol = np.concatenate((vx, vy, p), axis=0)
 
  end_time = time()
  bc_apply_time = end_time - start_time 

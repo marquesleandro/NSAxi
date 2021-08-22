@@ -12,7 +12,69 @@
 
 import numpy as np
 
-def vtkFile(_file, _polynomial_option): 
+#Version 2 - Mini element powered
+def vtkFile(_file, _numNodes, _numVerts, _numElements, _IEN, _polynomial_option): 
+ benchmark_problem = 'Continue simulation'
+
+ #List Python Assembly
+ vtkList = [] 
+ with open(_file) as vtkFile:
+   for line in vtkFile:
+    row = line.split()
+    vtkList.append(row[:])
+
+ #Mapping 
+ #(p.s: How to print index in .txt file python without convert in a list?)
+ #To find a string, just make -> in "string" in open(file).read():
+ for i in range(0,len(vtkList)):
+  if "VECTORS" in vtkList[i]:
+    indexVectors = i
+    print indexVectors
+
+  if "scalar1" in vtkList[i]:
+    indexScalar1 = i
+    print indexScalar1
+
+  if "scalar2" in vtkList[i]:
+    indexScalar2 = i
+    print indexScalar2
+
+  if "scalar3" in vtkList[i]:
+    indexScalar3 = i
+    print indexScalar3
+
+ 
+ vx = np.zeros([_numNodes,1], dtype = float)
+ vy = np.zeros([_numNodes,1], dtype = float)
+ scalar1 = np.zeros([_numNodes,1], dtype = float)
+ scalar2 = np.zeros([_numVerts,1], dtype = float)
+ scalar3 = np.zeros([_numVerts,1], dtype = float)
+ for i in range(0,_numVerts):
+  scalar1[i] = float(vtkList[indexScalar1 + 2 + i][0])
+  scalar2[i] = float(vtkList[indexScalar2 + 2 + i][0])
+  scalar3[i] = float(vtkList[indexScalar3 + 2 + i][0])
+  vx[i] = float(vtkList[indexVectors + 1 + i][0])
+  vy[i] = float(vtkList[indexVectors + 1 + i][1])
+
+
+ #Centroid
+ if _polynomial_option == 2:
+  for e in range(0,_numElements):
+   v1 = _IEN[e][0]
+   v2 = _IEN[e][1]
+   v3 = _IEN[e][2]
+   v4 = _IEN[e][3]
+   vx[v4] = (vx[v1] + vx[v2] + vx[v3])/3.0
+   vy[v4] = (vy[v1] + vy[v2] + vy[v3])/3.0
+   scalar1[v4] = (scalar1[v1] + scalar1[v2] + scalar1[v3])/3.0
+
+
+
+ return vx, vy, scalar1, scalar2, scalar3, benchmark_problem
+
+
+#Version 1 - Loop over list
+def vtkFilev1(_file, _polynomial_option): 
  benchmark_problem = 'Continue simulation'
 
  vtkList = [] 
