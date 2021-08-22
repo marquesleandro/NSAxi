@@ -495,7 +495,7 @@ os.chdir(initial_path)
 # ------------------------ Export VTK File ---------------------------------------
 # Linear and Mini Elements
 if polynomial_option == 0 or polynomial_option == 1 or polynomial_option == 2:   
- save = exportVTK.Linear2D(x,y,IEN,numVerts,numElements,p,p,c,vx,vy)
+ save = exportVTK.Linear2D(x,y,IEN,numVerts,numElements,c,p,p,vx,vy)
  save.create_dir(folderResults)
  save.saveVTK(folderResults + str(0))
 
@@ -912,7 +912,7 @@ for t in tqdm(range(1, nt)):
 
   # Linear and Mini Elements
   if polynomial_option == 0 or polynomial_option == 1 or polynomial_option == 2:   
-   save = exportVTK.Linear2D(x,y,IEN,numVerts,numElements,p,p,c,vx,vy)
+   save = exportVTK.Linear2D(x,y,IEN,numVerts,numElements,c,p,p,vx,vy)
    save.create_dir(folderResults)
    save.saveVTK(folderResults + str(t))
  
