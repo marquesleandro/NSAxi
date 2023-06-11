@@ -310,7 +310,7 @@ Kxxr, Kxyr, Kyxr, Kyyr, Kr, M2r, Mr, M, MrLump, Gx, Gy, Gxr, Gyr, M1, polynomial
 
 # -----
 
-#calculated using r_avg in MEF integral
+#calculated using r_avg in MEF integral - result ok (COBEM 2021)
 A11 = (Mr/dt) + (1./Re)*(Kyyr + Kxxr)
 A13 = -Gxr
 A22 = (Mr/dt) + (1./Re)*(Kyyr + Kxxr)
